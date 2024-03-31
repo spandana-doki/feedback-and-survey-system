@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Survey</title>
+<style>
+Font, Alignment */ 
+	body {
+		background-color: #05c46b;
+		font-family: Verdana;
+		text-align: center;
+	}
+
+	/* Styling the Form (Color, Padding, Shadow) */
+	form {
+		background-color: white	;
+		max-width: 500px;
+		margin: 50px auto;
+		padding: 30px 20px;
+		box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Styling form-control Class */
+	.form-control {
+		text-align: left;
+		margin-bottom: 25px;
+	}
+
+	/* Styling form-control Label */ 
+	.form-control label {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	/* Styling form-control input, 
+	select, textarea */
+	.form-control input,
+	.form-control select,
+	.form-control textarea {
+		border: 1px solid #777;
+		border-radius: 2px;
+		font-family: inherit;
+		padding: 10px;
+		display: block;
+		width: 95%;
+	}
+
+	/* Styling form-control Radio 
+	button and Checkbox */
+	.form-control input[type="radio"],
+	.form-control input[type="checkbox"] {
+		display: inline-block;
+		width: auto;
+	}
+
+	/* Styling Button */
+	button {
+		background-color: #05c46b;
+		border: 1px solid #777;
+		border-radius: 2px;
+		font-family: inherit;
+		font-size: 21px;
+		display: block;
+		width: 100%;
+		margin-top: 50px;
+		margin-bottom: 20px;
+	}
+</style>
+</head>
+<body>
+  <h1>Feedback Survey</h1>
+  <form id="surveyForm">
+    <label for="question">Select a Question:</label>
+    <select id="question" name="question" required>
+      <option value="">Select a question...</option>
+      <option value="How satisfied are you with our service?">How satisfied are you with our service?</option>
+      <option value="What could we do to improve our product?">What could we do to improve our product?</option>
+      <option value="How likely are you to recommend us to a friend?">How likely are you to recommend us to a friend?</option>
+      <!-- Add more predefined questions here -->
+    </select>
+    <label for="option">Your Feedback:</label>
+    <textarea id="option" name="option" rows="4" required></textarea>
+    <button type="submit">Submit Feedback</button>
+  </form>
+
+  <script>
+    document.getElementById('surveyForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const question = document.getElementById('question').value;
+      const option = document.getElementById('option').value;
+      
+      try {
+        const response = await fetch('/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question, option })
+        });
+        const data = await response.json();
+        alert('Feedback submitted successfully!');
+        console.log(data);
+        // Redirect to home page after submitting feedback
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  </script>
+</body>
+</html>
